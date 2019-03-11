@@ -1,2 +1,16 @@
 ---
-# defaults file for bookstack
+bookstack_mysql_root: Aw3S0mePassHere
+bookstack_mysql_db: bookstack
+bookstack_mysql_user:
+bookstack_mysql_password: Aw3S0mePassHere2
+bookstack_mysql_vol: mysql
+bookstack_image: solidnerd/bookstack:0.25.1
+bookstack_vol_public: public
+bookstack_vol_uploads: uploads
+bookstack_url: https://books.example.com
+bookstack_ldap: false
+ldap_server: 10.0.0.1
+ldap_base_dn: cn=users,cn=accounts,dc=example,dc=com
+ldap_user: uid=ldapreader,cn=users,cn=accounts,dc=example,dc=com   
+ldap_password: Hop3th1sIsAls0agoodpass
+ldap_filter: uid # sAMAccountName or uid
