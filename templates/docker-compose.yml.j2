@@ -1,0 +1,48 @@
+version: '2'
+services:
+
+  mysql:
+    container_name: bookstack-mysql
+    restart: unless-stopped
+    image: mysql:5.7.12
+    environment:
+    - MYSQL_ROOT_PASSWORD=YourRootPassw0rd!
+    - MYSQL_DATABASE=bookstack
+    - MYSQL_USER=bookstack
+    - MYSQL_PASSWORD=YourPassw0rd!
+    volumes:
+    - /volume4/docker/bookstack/db/mysql:/var/lib/mysql
+
+  bookstack:
+    container_name: bookstack
+    restart: unless-stopped
+    image: solidnerd/bookstack:0.16.2
+    depends_on:
+    - mysql
+    environment:
+    - APP_ENV=production
+    - APP_DEBUG=false
+    - APP_URL=https://bookstack.rylander.io
+    #- WKHTMLTOPDF=
+    - DB_HOST=mysql
+    - DB_DATABASE=bookstack
+    - DB_USERNAME=bookstack
+    - DB_PASSWORD=YourPassw0rd!
+    # General auth
+    - AUTH_METHOD=ldap
+    # LDAP Settings
+    - LDAP_SERVER=10.0.1.6
+    - LDAP_BASE_DN=cn=Users,dc=rylander,dc=io
+    - LDAP_DN=CN=adminuser,CN=Users,DC=rylander,DC=io
+    - LDAP_PASS=YourLDAPPassw0rd!
+    #use double $$ since we are using docker
+    - LDAP_USER_FILTER=(&(sAMAccountName=$${user}))
+    - LDAP_VERSION=3
+    volumes:
+    - /volume4/docker/bookstack/public/uploads:/var/www/BookStack/public/uploads
+    - /volume4/docker/bookstack/storage/uploads:/var/www/BookStack/storage/uploads
+    ports:
+    - "8084:80"
+    expose:
+    - "8084"
+    
